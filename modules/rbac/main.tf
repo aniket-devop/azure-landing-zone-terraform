@@ -6,5 +6,5 @@ resource "azurerm_role_assignment" "this" {
 
   scope                = var.resource_group_id
   role_definition_name = each.value.role_definition_name
-  principal_id          = each.value.principal_id
+  principal_id         = each.value.principal_id
 }

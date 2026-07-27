@@ -10,7 +10,7 @@ resource "azurerm_key_vault" "this" {
   # (Entra ID role assignments) instead of two separate permission models.
   enable_rbac_authorization = true
 
-  purge_protection_enabled  = true
+  purge_protection_enabled   = true
   soft_delete_retention_days = 7
 
   network_acls {
