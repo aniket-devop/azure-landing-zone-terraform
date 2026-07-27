@@ -1,0 +1,31 @@
+name: Terraform CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  fmt-validate:
+    name: Format and Validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_version: "1.7.5"
+
+      - name: Terraform fmt (check only)
+        run: terraform fmt -check -recursive
+
+      - name: Terraform init (dev)
+        working-directory: environments/dev
+        run: terraform init -backend=false
+
+      - name: Terraform validate (dev)
+        working-directory: environments/dev
+        run: terraform validate
