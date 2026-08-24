@@ -1,34 +1,4 @@
-<<<<<<< HEAD
-
-
-## 1. Azure Landing Zone — Hub-and-Spoke Network
-
-🔗 **Repo:** [azure-landing-zone-terraform](https://github.com/aniket-devop/azure-landing-zone-terraform)
-`Terraform` `Azure Firewall` `Bastion` `Key Vault` `Private DNS` `GitHub Actions`
-
-A hub-and-spoke enterprise network topology — the same pattern Microsoft recommends for real Azure landing zones — built entirely from reusable Terraform modules, with centralized security (Firewall + Bastion) and zero public exposure on workload VMs.
-
-### Architecture Diagram
-
-![Azure Landing Zone Architecture](https://raw.githubusercontent.com/aniket-devop/azure-landing-zone-terraform/main/diagrams/architecture.png)
-
-<details>
-<summary><b>📖 Architecture Flow — click to expand</b></summary>
-
-1. Admin connects to **Azure Bastion** over HTTPS (443) — no VM ever has a public IP.
-2. Bastion proxies RDP/SSH internally to VMs in the spoke VNets.
-3. All inter-VNet traffic between hub and spokes flows through **VNet Peering**, routed and inspected by **Azure Firewall**.
-4. Outbound internet access from spokes is forced through the firewall (no direct egress from workloads).
-5. Application secrets/connection strings are pulled from **Key Vault** via a **Private Endpoint**, resolved through a **Private DNS Zone** — never over the public Key Vault endpoint.
-6. Every subnet in the spokes sits behind a **deny-by-default NSG**; only explicitly required ports are opened.
-7. Infrastructure changes go through GitHub Actions: `terraform plan` and `validate` run automatically on every PR, and `apply` requires manual approval — no direct `apply` from a laptop.
-
-</details>
-
-<details>
-<summary><b>📁 Folder Structure</b></summary>
-=======
-# Azure Hub-and-Spoke Network Foundation (Terraform)
+﻿# Azure Hub-and-Spoke Network Foundation (Terraform)
 
 ![Terraform CI](https://github.com/aniket-devop/azure-landing-zone-terraform/actions/workflows/terraform-ci.yml/badge.svg)
 
@@ -57,28 +27,27 @@ This is a personal, sandbox-scale project — not a multi-subscription enterpris
 
 ## Technology stack
 
-Terraform · Azure Virtual Network · Azure Firewall · Azure Bastion · Azure Key Vault · Azure RBAC · GitHub Actions
+Terraform Â· Azure Virtual Network Â· Azure Firewall Â· Azure Bastion Â· Azure Key Vault Â· Azure RBAC Â· GitHub Actions
 
 ## Module structure
->>>>>>> d47a716 (Replace personal profile README with accurate project README)
 
 ```
 azure-landing-zone-terraform/
-├── modules/
-│   ├── hub-network/     # Hub VNet + AzureFirewallSubnet, AzureBastionSubnet, shared-services subnet
-│   ├── spoke-network/   # Spoke VNet + snet-aks, deny-by-default NSG
-│   ├── peering/         # Symmetric hub<->spoke VNet peering
-│   ├── firewall/        # Azure Firewall, default-deny policy, explicit allow rules (HTTPS, DNS)
-│   ├── bastion/         # Azure Bastion host, no public IP on any workload
-│   ├── key-vault/       # Key Vault: RBAC authorization + network ACL
-│   └── rbac/            # Role assignments scoped to a resource group
-├── environments/
-│   ├── dev/             # Composes every module above + a route table forcing egress through the Firewall
-│   └── prod/            # Identical main.tf to dev — different .tfvars only
-├── docs/architecture.md # Design decisions, trade-offs, and current limitations
-├── tests/README.md      # Honest status: no automated tests exist yet, and why
-├── CHANGELOG.md
-└── .github/workflows/terraform-ci.yml
+â”œâ”€â”€ modules/
+â”‚   â”œâ”€â”€ hub-network/     # Hub VNet + AzureFirewallSubnet, AzureBastionSubnet, shared-services subnet
+â”‚   â”œâ”€â”€ spoke-network/   # Spoke VNet + snet-aks, deny-by-default NSG
+â”‚   â”œâ”€â”€ peering/         # Symmetric hub<->spoke VNet peering
+â”‚   â”œâ”€â”€ firewall/        # Azure Firewall, default-deny policy, explicit allow rules (HTTPS, DNS)
+â”‚   â”œâ”€â”€ bastion/         # Azure Bastion host, no public IP on any workload
+â”‚   â”œâ”€â”€ key-vault/       # Key Vault: RBAC authorization + network ACL
+â”‚   â””â”€â”€ rbac/            # Role assignments scoped to a resource group
+â”œâ”€â”€ environments/
+â”‚   â”œâ”€â”€ dev/             # Composes every module above + a route table forcing egress through the Firewall
+â”‚   â””â”€â”€ prod/            # Identical main.tf to dev — different .tfvars only
+â”œâ”€â”€ docs/architecture.md # Design decisions, trade-offs, and current limitations
+â”œâ”€â”€ tests/README.md      # Honest status: no automated tests exist yet, and why
+â”œâ”€â”€ CHANGELOG.md
+â””â”€â”€ .github/workflows/terraform-ci.yml
 ```
 
 ## Environment strategy
@@ -142,3 +111,5 @@ Update `storage_account_name` in `environments/*/backend.tf` to match before run
 ## License
 
 [MIT](LICENSE)
+
+
